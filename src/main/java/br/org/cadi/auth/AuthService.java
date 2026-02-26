@@ -1,4 +1,4 @@
-package br.org.cadi.iam;
+package br.org.cadi.auth;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
