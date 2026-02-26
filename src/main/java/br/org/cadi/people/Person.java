@@ -50,7 +50,3 @@ public class Person {
     @JoinColumn(name = "user_id")
     private User user;
 }
-
-enum PersonType {
-    STUDENT, PROFESSOR, DONOR, VOLUNTEER, STAFF, PSYCHOLOGIST
-}

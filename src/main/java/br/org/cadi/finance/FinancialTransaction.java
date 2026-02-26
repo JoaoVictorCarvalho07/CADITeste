@@ -42,7 +42,3 @@ public class FinancialTransaction {
 
     private String receiptUrl;
 }
-
-enum TransactionType {
-    INCOME, EXPENSE
-}
