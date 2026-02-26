@@ -1,4 +1,4 @@
-package br.org.cadi.iam;
+package br.org.cadi.auth;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

@@ -1,6 +1,6 @@
 package br.org.cadi.config;
 
-import br.org.cadi.iam.JwtAuthenticationFilter;
+import br.org.cadi.auth.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

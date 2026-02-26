@@ -1,6 +1,6 @@
 package br.org.cadi.people;
 
-import br.org.cadi.iam.User;
+import br.org.cadi.auth.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
