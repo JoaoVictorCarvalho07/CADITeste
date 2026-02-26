@@ -1,9 +1,5 @@
 package br.org.cadi.shared;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -23,14 +19,4 @@ public class GlobalExceptionHandler {
                 .build();
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
-}
-
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-class ErrorResponse {
-    private LocalDateTime timestamp;
-    private String message;
-    private int status;
 }
