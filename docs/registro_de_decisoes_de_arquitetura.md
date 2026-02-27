@@ -113,7 +113,7 @@ Adoção de comunicação orientada a eventos para notificações e processos as
 
 **Implementação inicial:**
 
-* RabbitM ou fila baseada em banco (scheduler)
+* RabbitM ou fila baseada em banco (scheduler) 
 
 **Evolução planejada:**
 
