@@ -5,6 +5,8 @@ import br.org.cadi.auth.UserRepository;
 import br.org.cadi.communication.dto.NotificationRequest;
 import br.org.cadi.communication.dto.NotificationResponse;
 import br.org.cadi.config.RabbitMQConfig;
+import br.org.cadi.people.Person;
+import br.org.cadi.people.PersonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,7 @@ public class NotificationService {
     private final NotificationUserRepository notificationUserRepository;
     private final UserRepository userRepository;
     private final RabbitTemplate rabbitTemplate;
+    private final PersonService personService;
 
     @Transactional
     public void sendNotification(NotificationRequest request) {
@@ -37,6 +40,11 @@ public class NotificationService {
         List<User> recipients = userRepository.findAllById(request.getRecipientIds());
 
         recipients.forEach(user -> {
+
+            Person p  = personService.findByUserId(user.getId()).orElse(null);
+            assert p != null;
+
+
             NotificationUser notificationUser = NotificationUser.builder()
                     .notification(notification)
                     .user(user)
@@ -45,10 +53,11 @@ public class NotificationService {
             notificationUserRepository.save(notificationUser);
 
             // Publish event to RabbitMQ for asynchronous processing (e.g., WhatsApp integration)
+
             rabbitTemplate.convertAndSend(
                     RabbitMQConfig.NOTIFICATION_EXCHANGE,
                     "whatsapp.send",
-                    new WhatsAppMessageEvent(user.getUsername(), notification.getMessage())
+                    new WhatsAppMessageEvent(user.getUsername(), p.getNumber(), notification.getMessage())
             );
         });
     }
@@ -69,6 +78,9 @@ public class NotificationService {
     }
 
     private NotificationResponse mapToResponse(NotificationUser nu) {
+
+
+
         return NotificationResponse.builder()
                 .id(nu.getId())
                 .title(nu.getNotification().getTitle())

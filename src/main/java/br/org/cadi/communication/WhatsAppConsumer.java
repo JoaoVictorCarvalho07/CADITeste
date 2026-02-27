@@ -4,10 +4,17 @@ import br.org.cadi.config.RabbitMQConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
+import org.springframework.web.reactive.function.client.WebClient;
 
 @Component
 @Slf4j
 public class WhatsAppConsumer {
+
+    private final WhatsAppService whatsAppService;
+    public WhatsAppConsumer(WhatsAppService whatsAppService) {
+        this.whatsAppService = whatsAppService;
+    }
+
 
     @RabbitListener(queues = RabbitMQConfig.WHATSAPP_QUEUE)
     public void consumeWhatsAppMessage(WhatsAppMessageEvent event) {
@@ -17,9 +24,11 @@ public class WhatsAppConsumer {
         // Simulated WhatsApp API integration
         try {
             simulateWhatsAppApiCall(event);
+//            whatsAppService.sendMessage(event.getPhoneNumber(), event.getContent());
             log.info("WhatsApp message sent successfully to {}", event.getUsername());
         } catch (Exception e) {
             log.error("Failed to send WhatsApp message to {}: {}", event.getUsername(), e.getMessage());
+//            throw e;
         }
     }
 
@@ -30,4 +39,6 @@ public class WhatsAppConsumer {
             throw new RuntimeException("WhatsApp API connection timeout");
         }
     }
+
+
 }

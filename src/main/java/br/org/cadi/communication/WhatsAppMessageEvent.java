@@ -9,5 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class WhatsAppMessageEvent {
     private String username;
+    private String phoneNumber;
     private String content;
 }

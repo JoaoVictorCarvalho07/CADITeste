@@ -32,6 +32,7 @@ public class AuthService {
                 .roles(roles)
                 .build();
         repository.save(user);
+
         var jwtToken = jwtService.generateToken(user);
         return AuthResponse.builder()
                 .token(jwtToken)
