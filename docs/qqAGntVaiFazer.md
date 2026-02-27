@@ -11,7 +11,7 @@
 
 * Storage: local / S3 / MinIO || azure
 
-* Deploy: azure 
+* Deploy: azure
 
 
 ## 2. Definir o MVP real (escopo mínimo)
