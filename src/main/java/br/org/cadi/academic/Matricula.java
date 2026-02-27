@@ -1,6 +1,7 @@
 package br.org.cadi.academic;
 
 import br.org.cadi.people.Person;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,10 +16,12 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Entity
 @Table(name = "matriculas")
+@Schema(description = "Represents a student's enrollment in a class")
 public class Matricula {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(example = "1")
     private Long id;
 
     @ManyToOne
@@ -29,7 +32,9 @@ public class Matricula {
     @JoinColumn(name = "turma_id", nullable = false)
     private Turma turma;
 
+    @Schema(example = "2024-02-01")
     private LocalDate enrollmentDate;
 
-    private String status; // e.g., "ACTIVE", "CANCELLED"
+    @Schema(example = "ACTIVE")
+    private String status;
 }
