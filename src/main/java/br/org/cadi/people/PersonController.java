@@ -2,6 +2,8 @@ package br.org.cadi.people;
 
 import br.org.cadi.auth.User;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,12 +21,22 @@ public class PersonController {
     private final PersonService service;
 
     @Operation(summary = "List people by type", description = "Returns a list of people filtered by their type (STUDENT, PROFESSOR, etc.)")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Successfully retrieved list"),
+        @ApiResponse(responseCode = "401", description = "Unauthorized"),
+        @ApiResponse(responseCode = "403", description = "Forbidden")
+    })
     @GetMapping("/type/{type}")
     public List<Person> findByType(@PathVariable PersonType type) {
         return service.findByType(type);
     }
 
     @Operation(summary = "Register a person", description = "Creates a new person record. Requires SECRETARIA or ADMIN role")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Person successfully created"),
+        @ApiResponse(responseCode = "400", description = "Invalid input data"),
+        @ApiResponse(responseCode = "403", description = "Forbidden")
+    })
     @PreAuthorize("hasAnyRole('SECRETARIA', 'ADMIN')")
     @PostMapping
     public ResponseEntity<Person> create(@RequestBody Person person) {
@@ -32,6 +44,10 @@ public class PersonController {
     }
 
     @Operation(summary = "Get person by ID")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Successfully retrieved person"),
+        @ApiResponse(responseCode = "404", description = "Person not found")
+    })
     @GetMapping("/{id}")
     public ResponseEntity<Person> findById(@PathVariable Long id) {
         return service.findById(id)
@@ -39,7 +55,12 @@ public class PersonController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @Operation(summary = "Update person data")
+    @Operation(summary = "Update person data", description = "Updates an existing person's information. Accessible by staff or the user themselves.")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Person successfully updated"),
+        @ApiResponse(responseCode = "403", description = "Forbidden - Not authorized to update this person"),
+        @ApiResponse(responseCode = "404", description = "Person not found")
+    })
     @PreAuthorize("hasAnyRole('SECRETARIA', 'ADMIN') or @personSecurity.isSelf(#id)")
     @PutMapping("/{id}")
     public ResponseEntity<Person> update(@PathVariable Long id, @RequestBody Person personDetails) {

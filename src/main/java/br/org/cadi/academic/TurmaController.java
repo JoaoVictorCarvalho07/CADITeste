@@ -1,6 +1,8 @@
 package br.org.cadi.academic;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,12 +20,19 @@ public class TurmaController {
     private final TurmaService service;
 
     @Operation(summary = "List all classes", description = "Returns a list of all classes in the system")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Successfully retrieved list")
+    })
     @GetMapping
     public List<Turma> findAll() {
         return service.findAll();
     }
 
     @Operation(summary = "Create a new class", description = "Creates a new class (turma). Requires SECRETARIA or ADMIN role")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Class successfully created"),
+        @ApiResponse(responseCode = "403", description = "Forbidden")
+    })
     @PreAuthorize("hasAnyRole('SECRETARIA', 'ADMIN')")
     @PostMapping
     public ResponseEntity<Turma> create(@RequestBody Turma turma) {
@@ -31,6 +40,10 @@ public class TurmaController {
     }
 
     @Operation(summary = "Get class by ID")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Successfully retrieved class"),
+        @ApiResponse(responseCode = "404", description = "Class not found")
+    })
     @GetMapping("/{id}")
     public ResponseEntity<Turma> findById(@PathVariable Long id) {
         return service.findById(id)

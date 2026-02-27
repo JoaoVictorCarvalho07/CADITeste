@@ -1,6 +1,5 @@
 package br.org.cadi.people;
 
-import br.org.cadi.auth.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +30,16 @@ public class PersonService {
                     person.setName(personDetails.getName());
                     person.setEmail(personDetails.getEmail());
                     person.setPhone(personDetails.getPhone());
-                    // Update other fields as needed
+                    person.setCpf(personDetails.getCpf());
+                    person.setBirthDate(personDetails.getBirthDate());
+                    person.setStreet(personDetails.getStreet());
+                    person.setNumber(personDetails.getNumber());
+                    person.setComplement(personDetails.getComplement());
+                    person.setNeighborhood(personDetails.getNeighborhood());
+                    person.setCity(personDetails.getCity());
+                    person.setState(personDetails.getState());
+                    person.setZipCode(personDetails.getZipCode());
+                    person.setType(personDetails.getType());
                     return repository.save(person);
                 });
     }
