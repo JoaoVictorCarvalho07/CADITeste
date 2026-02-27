@@ -1,9 +1,14 @@
 package br.org.cadi.finance;
 
+import br.org.cadi.finance.dto.FinancialTransactionRequest;
+import br.org.cadi.finance.dto.FinancialTransactionResponse;
+import br.org.cadi.finance.dto.ProjectRequest;
+import br.org.cadi.finance.dto.ProjectResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -26,7 +31,7 @@ public class FinanceController {
     })
     @PreAuthorize("hasAnyRole('FINANCEIRO', 'ADMIN')")
     @GetMapping("/transactions")
-    public List<FinancialTransaction> findAllTransactions() {
+    public List<FinancialTransactionResponse> findAllTransactions() {
         return service.findAllTransactions();
     }
 
@@ -38,7 +43,7 @@ public class FinanceController {
     })
     @PreAuthorize("hasAnyRole('FINANCEIRO', 'ADMIN')")
     @PostMapping("/transactions")
-    public ResponseEntity<FinancialTransaction> createTransaction(@RequestBody FinancialTransaction transaction) {
+    public ResponseEntity<FinancialTransactionResponse> createTransaction(@Valid @RequestBody FinancialTransactionRequest transaction) {
         return ResponseEntity.ok(service.saveTransaction(transaction));
     }
 
@@ -47,7 +52,7 @@ public class FinanceController {
         @ApiResponse(responseCode = "200", description = "Successfully retrieved projects")
     })
     @GetMapping("/projects")
-    public List<Project> findAllProjects() {
+    public List<ProjectResponse> findAllProjects() {
         return service.findAllProjects();
     }
 
@@ -58,7 +63,7 @@ public class FinanceController {
     })
     @PreAuthorize("hasAnyRole('ADMIN')")
     @PostMapping("/projects")
-    public ResponseEntity<Project> createProject(@RequestBody Project project) {
+    public ResponseEntity<ProjectResponse> createProject(@Valid @RequestBody ProjectRequest project) {
         return ResponseEntity.ok(service.saveProject(project));
     }
 }

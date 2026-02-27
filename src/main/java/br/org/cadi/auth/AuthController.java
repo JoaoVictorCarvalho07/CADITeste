@@ -1,5 +1,8 @@
 package br.org.cadi.auth;
 
+import br.org.cadi.auth.dto.AuthRequest;
+import br.org.cadi.auth.dto.AuthResponse;
+import br.org.cadi.auth.dto.RegisterRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;

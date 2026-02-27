@@ -1,9 +1,12 @@
 package br.org.cadi.academic;
 
+import br.org.cadi.academic.dto.TurmaResponse;
+import br.org.cadi.academic.dto.TurmaRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -24,7 +27,7 @@ public class TurmaController {
         @ApiResponse(responseCode = "200", description = "Successfully retrieved list")
     })
     @GetMapping
-    public List<Turma> findAll() {
+    public List<TurmaResponse> findAll() {
         return service.findAll();
     }
 
@@ -35,7 +38,7 @@ public class TurmaController {
     })
     @PreAuthorize("hasAnyRole('SECRETARIA', 'ADMIN')")
     @PostMapping
-    public ResponseEntity<Turma> create(@RequestBody Turma turma) {
+    public ResponseEntity<TurmaResponse> create(@Valid @RequestBody TurmaRequest turma) {
         return ResponseEntity.ok(service.save(turma));
     }
 
@@ -45,7 +48,7 @@ public class TurmaController {
         @ApiResponse(responseCode = "404", description = "Class not found")
     })
     @GetMapping("/{id}")
-    public ResponseEntity<Turma> findById(@PathVariable Long id) {
+    public ResponseEntity<TurmaResponse> findById(@PathVariable Long id) {
         return service.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
