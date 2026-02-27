@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.Set;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +23,16 @@ public class AuthService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
+    public Long getAuthenticatedUserId() {
+
+        Authentication authentication = SecurityContextHolder
+                .getContext()
+                .getAuthentication();
+
+        String userId = authentication.getName();
+
+        return Long.parseLong(userId);
+    }
     public AuthResponse register(RegisterRequest request) {
         Set<Role> roles = new HashSet<>();
         roleRepository.findByName("ROLE_ALUNO").ifPresent(roles::add);
