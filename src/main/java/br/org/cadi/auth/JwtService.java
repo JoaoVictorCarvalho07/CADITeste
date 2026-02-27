@@ -5,6 +5,8 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -76,5 +78,16 @@ public class JwtService {
             keyBytes = secretKey.getBytes();
         }
         return Keys.hmacShaKeyFor(keyBytes);
+    }
+
+    public Long getAuthenticatedUserId() {
+
+        Authentication authentication = SecurityContextHolder
+                .getContext()
+                .getAuthentication();
+
+        String userId = authentication.getName();
+
+        return Long.parseLong(userId);
     }
 }
