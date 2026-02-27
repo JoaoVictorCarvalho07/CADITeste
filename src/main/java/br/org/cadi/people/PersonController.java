@@ -1,10 +1,12 @@
 package br.org.cadi.people;
 
-import br.org.cadi.auth.User;
+import br.org.cadi.people.dto.PersonRequest;
+import br.org.cadi.people.dto.PersonResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -27,7 +29,7 @@ public class PersonController {
         @ApiResponse(responseCode = "403", description = "Forbidden")
     })
     @GetMapping("/type/{type}")
-    public List<Person> findByType(@PathVariable PersonType type) {
+    public List<PersonResponse> findByType(@PathVariable PersonType type) {
         return service.findByType(type);
     }
 
@@ -39,7 +41,7 @@ public class PersonController {
     })
     @PreAuthorize("hasAnyRole('SECRETARIA', 'ADMIN')")
     @PostMapping
-    public ResponseEntity<Person> create(@RequestBody Person person) {
+    public ResponseEntity<PersonResponse> create(@Valid @RequestBody PersonRequest person) {
         return ResponseEntity.ok(service.save(person));
     }
 
@@ -49,7 +51,7 @@ public class PersonController {
         @ApiResponse(responseCode = "404", description = "Person not found")
     })
     @GetMapping("/{id}")
-    public ResponseEntity<Person> findById(@PathVariable Long id) {
+    public ResponseEntity<PersonResponse> findById(@PathVariable Long id) {
         return service.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -63,7 +65,7 @@ public class PersonController {
     })
     @PreAuthorize("hasAnyRole('SECRETARIA', 'ADMIN') or @personSecurity.isSelf(#id)")
     @PutMapping("/{id}")
-    public ResponseEntity<Person> update(@PathVariable Long id, @RequestBody Person personDetails) {
+    public ResponseEntity<PersonResponse> update(@PathVariable Long id, @Valid @RequestBody PersonRequest personDetails) {
         return service.update(id, personDetails)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());

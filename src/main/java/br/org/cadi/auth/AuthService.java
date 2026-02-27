@@ -1,5 +1,8 @@
 package br.org.cadi.auth;
 
+import br.org.cadi.auth.dto.AuthRequest;
+import br.org.cadi.auth.dto.AuthResponse;
+import br.org.cadi.auth.dto.RegisterRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

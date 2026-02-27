@@ -1,9 +1,14 @@
 package br.org.cadi.academic;
 
+import br.org.cadi.academic.dto.AulaRequest;
+import br.org.cadi.academic.dto.AulaResponse;
+import br.org.cadi.academic.dto.PresencaRequest;
+import br.org.cadi.academic.dto.PresencaResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -26,7 +31,7 @@ public class FrequenciaController {
     })
     @PreAuthorize("hasAnyRole('PROFESSOR', 'ADMIN')")
     @PostMapping("/aula")
-    public ResponseEntity<Aula> registerAula(@RequestBody Aula aula) {
+    public ResponseEntity<AulaResponse> registerAula(@Valid @RequestBody AulaRequest aula) {
         return ResponseEntity.ok(service.saveAula(aula));
     }
 
@@ -37,7 +42,7 @@ public class FrequenciaController {
     })
     @PreAuthorize("hasAnyRole('PROFESSOR', 'ADMIN')")
     @PostMapping("/presenca")
-    public ResponseEntity<List<Presenca>> recordAttendance(@RequestBody List<Presenca> presencas) {
+    public ResponseEntity<List<PresencaResponse>> recordAttendance(@Valid @RequestBody List<PresencaRequest> presencas) {
         return ResponseEntity.ok(service.savePresencas(presencas));
     }
 
@@ -46,7 +51,7 @@ public class FrequenciaController {
         @ApiResponse(responseCode = "200", description = "Successfully retrieved frequency history")
     })
     @GetMapping("/aluno/{studentId}")
-    public List<Presenca> getStudentFrequency(@PathVariable Long studentId) {
+    public List<PresencaResponse> getStudentFrequency(@PathVariable Long studentId) {
         return service.findByStudentId(studentId);
     }
 }

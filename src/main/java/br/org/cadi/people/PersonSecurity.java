@@ -14,7 +14,7 @@ public class PersonSecurity {
     public boolean isSelf(Long personId) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof User user) {
-            return personService.findById(personId)
+            return personService.findEntityById(personId)
                     .map(person -> person.getUser() != null && person.getUser().getId().equals(user.getId()))
                     .orElse(false);
         }
