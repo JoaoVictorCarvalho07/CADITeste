@@ -14,7 +14,7 @@ public class RoleSeeder implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        List<String> roles = List.of("ROLE_ADMIN", "ROLE_PROFESSOR", "ROLE_ALUNO", "ROLE_SECRETARIA", "ROLE_FINANCEIRO", "ROLE_PSICOLOGO");
+        List<String> roles = List.of("ADMIN", "PROFESSOR", "ALUNO", "SECRETARIA", "FINANCEIRO", "PSICOLOGO");
 
         roles.forEach(roleName -> {
             if (roleRepository.findByName(roleName).isEmpty()) {
