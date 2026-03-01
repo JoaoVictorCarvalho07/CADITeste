@@ -20,7 +20,7 @@ Each module follows a strict layered pattern:
 
 ### 🔐 Identity & Access Management (IAM)
 - **Authentication:** Stateless authentication using **JWT (JSON Web Tokens)**.
-- **RBAC (Role-Based Access Control):** Granular permissions based on roles:
+- **RBAC (Role-Based Access Control):** Every **User** has exactly **one Role**, simplifying permission management:
     - `ROLE_ADMIN`: Full system access.
     - `ROLE_SECRETARIA`: Operational management of people and classes.
     - `ROLE_PROFESSOR`: Access to assigned classes and attendance.
@@ -53,7 +53,7 @@ The system implements a robust, asynchronous messaging infrastructure.
 
 ### 📢 Institutional Mural
 - Posts can be targeted to specific audiences (e.g., only for a specific `Turma` or a specific `Role`).
-- Post visibility is calculated dynamically based on the authenticated user's profile.
+- Post visibility is calculated dynamically based on the user's single role and enrollments.
 
 ### 📩 Notification Flow & RabbitMQ
 1.  **Event Generation:** When a notification is sent, a record is created in the database.
