@@ -1,8 +1,6 @@
 package br.org.cadi.communication;
 
-import br.org.cadi.academic.Matricula;
 import br.org.cadi.academic.MatriculaRepository;
-import br.org.cadi.auth.Role;
 import br.org.cadi.auth.User;
 import br.org.cadi.communication.dto.MuralPostRequest;
 import br.org.cadi.communication.dto.MuralPostResponse;
@@ -39,12 +37,8 @@ public class MuralController {
     public List<MuralPostResponse> getMyMural() {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        List<String> roleNames = user.getRoles().stream()
-                .map(Role::getName)
-                .collect(Collectors.toList());
+        List<String> roleNames = user.getRole() != null ? List.of(user.getRole().getName()) : List.of();
 
-        // Find Turma IDs for the user (assuming students for now)
-        // In a more complete system, we'd check if they are a professor of a turma too
         List<Long> turmaIds = matriculaRepository.findByStudentUserId(user.getId()).stream()
                 .map(m -> m.getTurma().getId())
                 .collect(Collectors.toList());

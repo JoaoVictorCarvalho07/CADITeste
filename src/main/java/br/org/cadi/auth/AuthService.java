@@ -9,9 +9,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.Set;
-
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -22,14 +19,13 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
 
     public AuthResponse register(RegisterRequest request) {
-        Set<Role> roles = new HashSet<>();
-        roleRepository.findByName("ROLE_ALUNO").ifPresent(roles::add);
+        Role defaultRole = roleRepository.findByName("ROLE_ALUNO").orElse(null);
 
         var user = User.builder()
                 .username(request.getUsername())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .roles(roles)
+                .role(defaultRole)
                 .build();
         repository.save(user);
 
