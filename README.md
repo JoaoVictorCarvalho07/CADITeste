@@ -23,3 +23,4 @@ Financial management system for a non-profit educational institution.
 ## Architecture
 - Modular Monolith
 - Layered Architecture (Controller, Service, Repository, Entity)
+- For messagerie configure the application with api key gmail etc
