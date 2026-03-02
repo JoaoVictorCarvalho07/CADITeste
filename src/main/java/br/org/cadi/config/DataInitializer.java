@@ -79,7 +79,7 @@ public class DataInitializer implements CommandLineRunner {
         Person professor = Person.builder()
                 .name("Ricardo Almeida")
                 .email(profUser.getEmail())
-                .phone("+55 11 98888-7777")
+                .phone("+55 92 981920847")
                 .type(PersonType.PROFESSOR)
                 .user(profUser)
                 .build();
