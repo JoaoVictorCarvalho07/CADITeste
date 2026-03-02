@@ -53,4 +53,17 @@ public class RabbitMQConfig {
         rabbitTemplate.setMessageConverter(converter());
         return rabbitTemplate;
     }
+
+    @Bean
+    public Queue emailQueue() {
+        return new Queue("email.queue", true);
+    }
+
+    @Bean
+    public Binding emailBinding(Queue emailQueue, TopicExchange exchange) {
+        return BindingBuilder
+                .bind(emailQueue)
+                .to(exchange)
+                .with("email.send");
+    }
 }

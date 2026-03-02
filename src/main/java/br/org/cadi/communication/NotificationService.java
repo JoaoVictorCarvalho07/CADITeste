@@ -56,9 +56,14 @@ public class NotificationService {
 
             rabbitTemplate.convertAndSend(
                     RabbitMQConfig.NOTIFICATION_EXCHANGE,
-                    "whatsapp.send",
-                    new WhatsAppMessageEvent(user.getUsername(), p.getNumber(), notification.getMessage())
+                    "email.send",
+                    new EmailMessageEvent(p.getEmail(), notification.getTitle(), notification.getMessage(),true)
             );
+//            rabbitTemplate.convertAndSend(
+//                    RabbitMQConfig.NOTIFICATION_EXCHANGE,
+//                    "whatsapp.send",
+//                    new WhatsAppMessageEvent(user.getUsername(), p.getNumber(), notification.getMessage())
+//            );
         });
     }
 
