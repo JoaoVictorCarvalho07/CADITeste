@@ -1,4 +1,9 @@
 spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
   application:
     name: cadi-backend
   datasource:
@@ -36,3 +41,5 @@ whatsapp:
   phone:
     number:
       id: 92981920847
+
+
