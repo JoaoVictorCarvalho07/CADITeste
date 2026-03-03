@@ -65,6 +65,7 @@ The system implements a robust, asynchronous messaging infrastructure.
 
 ## 4. Documentation & Development
 - **Swagger/OpenAPI:** Full interactive API documentation available at `/swagger-ui.html`. Includes realistic examples and detailed response codes for every endpoint.
+- **Database Schema:** The current relational schema can be found in [docs/CURRENT_DATABASE_SCHEMA.sql](docs/CURRENT_DATABASE_SCHEMA.sql).
 - **Database:** Uses **H2** for rapid development/testing and is configured for **MySQL** in production.
 - **Validation:** Strict input validation using Jakarta Bean Validation.
 
